@@ -676,7 +676,7 @@ while login():
         print('Top Winners                2')
         print('Top Loser                  3')
         print('Top Drawer                 4')
-        print('Player\'s Card             5')
+        print('Player\'s Card              5')
         try:
             con = connect(host = 'localhost', user = 'root', password = 'sunbeam', database = 'Users')
             csr = con.cursor()
@@ -745,7 +745,141 @@ while login():
                     print('+'+'-'*(ml+16)+'+\n')
                     input('Press ENTER to go Back To Main Menu ...')
             elif pk == '2':
-                pass
+                csr.execute('SELECT Fname, Lname, TMP, TMW FROM PlrData ORDER BY TMW DESC')
+                dts = csr.fetchall()
+                n = 11
+                tp = 7
+                tw = 4
+                for i in dts:
+                    if len(i[0]+' '+i[1]) > n: n = len(i[0]+' '+i[1])
+                    if len(str(i[2])) > tp: tp = len(str(i[2]))
+                    if len(str(i[3])) > tw: tw = len(str(i[3]))
+                print('+'+'-'*(n+12+tp+tw),end = '+\n|')
+                print('Player Name'.center(n)+'|'+'Matches'.center(tp)+'|'+'Wins'.center(tw)+'|Win Ratio|')
+                print('+'+'-'*(n+12+tp+tw)+'+')
+                for i in dts:
+                    wr = ''
+                    if i[2] == 0: wr = '0 %'
+                    else:
+                        wr = str((i[3]/i[2])*100)
+                        wr = wr[:wr.index('.')]+' %'
+                    print('|'+(i[0]+' '+i[1]).ljust(n)+'|'+str(i[2]).center(tp)+'|'+str(i[3]).center(tw)+'|'+wr.rjust(9), end = '|\n')
+                    print('+'+'-'*(n+12+tp+tw)+'+')
+                else:input('Press ENTER to go Back To Main Menu ...')
+            elif pk == '3':
+                csr.execute('SELECT Fname, Lname, TMP, TML FROM PlrData ORDER BY TMW DESC')
+                dts = csr.fetchall()
+                n = 11
+                tp = 7
+                tw = 5
+                for i in dts:
+                    if len(i[0]+' '+i[1]) > n: n = len(i[0]+' '+i[1])
+                    if len(str(i[2])) > tp: tp = len(str(i[2]))
+                    if len(str(i[3])) > tw: tw = len(str(i[3]))
+                print('+'+'-'*(n+13+tp+tw),end = '+\n|')
+                print('Player Name'.center(n)+'|'+'Matches'.center(tp)+'|'+'Loses'.center(tw)+'|Lose Ratio|')
+                print('+'+'-'*(n+13+tp+tw)+'+')
+                for i in dts:
+                    wr = ''
+                    if i[2] == 0: wr = '0 %'
+                    else:
+                        wr = str((i[3]/i[2])*100)
+                        wr = wr[:wr.index('.')]+' %'
+                    print('|'+(i[0]+' '+i[1]).ljust(n)+'|'+str(i[2]).center(tp)+'|'+str(i[3]).center(tw)+'|'+wr.rjust(10), end = '|\n')
+                    print('+'+'-'*(n+13+tp+tw)+'+')
+                else:input('Press ENTER to go Back To Main Menu ...')
+            elif pk == '4':
+                csr.execute('SELECT Fname, Lname, TMP, TMD FROM PlrData ORDER BY TMW DESC')
+                dts = csr.fetchall()
+                n = 11
+                tp = 7
+                tw = 5
+                for i in dts:
+                    if len(i[0]+' '+i[1]) > n: n = len(i[0]+' '+i[1])
+                    if len(str(i[2])) > tp: tp = len(str(i[2]))
+                    if len(str(i[3])) > tw: tw = len(str(i[3]))
+                print('+'+'-'*(n+13+tp+tw),end = '+\n|')
+                print('Player Name'.center(n)+'|'+'Matches'.center(tp)+'|'+'Draws'.center(tw)+'|Draw Ratio|')
+                print('+'+'-'*(n+13+tp+tw)+'+')
+                for i in dts:
+                    wr = ''
+                    if i[2] == 0: wr = '0 %'
+                    else:
+                        wr = str((i[3]/i[2])*100)
+                        wr = wr[:wr.index('.')]+' %'
+                    print('|'+(i[0]+' '+i[1]).ljust(n)+'|'+str(i[2]).center(tp)+'|'+str(i[3]).center(tw)+'|'+wr.rjust(10), end = '|\n')
+                    print('+'+'-'*(n+13+tp+tw)+'+')
+                else:input('Press ENTER to go Back To Main Menu ...')
+            elif pk == '5':
+                u = input('\n\nUserID: ')
+                p = input('Password: ')
+                mt = False
+                csr.execute('SELECT UserID, PWD FROM PlrData')
+                up = csr.fetchall()
+                for i in up:
+                    if i[0] == u and i[1] == p:
+                        mt = True
+                        break
+                if mt:
+                    csr.execute('SELECT  Fname, Lname, DOB, TMP, TMW, TML, TMD, FWR, LWR, FLR, LLR, FDR, LDR FROM PlrData WHERE UserID = \''+u+'\'')
+                    FD = csr.fetchone()
+                    ml = 0
+                    for i in FD:
+                        if ml < len(str(i)):ml = len(str(i))+1
+                    for i in range(len(FD)):
+                        print('+'+'-'*(ml+16), end = '+\n|')
+                        if i == 0:
+                            print('First Name'.ljust(15)+'|'+str(FD[i]).rjust(ml),end='|\n')
+                        elif i == 1:
+                            print('Last Name'.ljust(15)+'|'+str(FD[i]).rjust(ml),end='|\n')
+                        elif i == 2:
+                            print('Date of Birth'.ljust(15)+'|'+str(FD[i]).rjust(ml),end='|\n')
+                        elif i == 3:
+                            print('Matches Played'.ljust(15)+'|'+str(FD[i]).center(ml),end='|\n')
+                        elif i == 4:
+                            print('Matches Won'.ljust(15)+'|'+str(FD[i]).center(ml),end='|\n')
+                            wr = ''
+                            if not FD[i-1]: wr = '0 %'
+                            else:
+                                wr = str((FD[i]/FD[i-1])*100)
+                                wr = wr[:wr.index('.')]+' %'
+                            print('+'+'-'*(ml+16), end='+\n|')
+                            print('Win Ratio'.ljust(15)+'|'+wr.center(ml),end='|\n')
+                        elif i == 5:
+                            print('Matches Lose'.ljust(15)+'|'+str(FD[i]).center(ml),end='|\n')
+                            lr = ''
+                            if not FD[i-2]: lr = '0 %'
+                            else:
+                                lr = str((FD[i]/FD[i-2])*100)
+                                lr = lr[:lr.index('.')]+' %'
+                            print('+'+'-'*(ml+16), end='+\n|')
+                            print('Lose Ratio'.ljust(15)+'|'+lr.center(ml),end='|\n')
+                        elif i == 6:
+                            print('Matches Draw'.ljust(15)+'|'+str(FD[i]).center(ml),end='|\n')
+                            dr = ''
+                            if not FD[i-3]: dr = '0 %'
+                            else:
+                                dr = str((FD[i]/FD[i-3])*100)
+                                dr = dr[:dr.index('.')]+' %'
+                            print('+'+'-'*(ml+16), end='+\n|')
+                            print('Draw Ratio'.ljust(15)+'|'+dr.center(ml),end='|\n')
+                        elif i == 7:
+                            print('Fastest Win'.ljust(15)+'|'+(str(FD[i])+' Rounds').rjust(ml),end='|\n') 
+                        elif i == 8:
+                            print('Longest Win'.ljust(15)+'|'+(str(FD[i])+' Rounds').rjust(ml),end='|\n')
+                        elif i == 9:
+                            print('Fastest Lose'.ljust(15)+'|'+(str(FD[i])+' Rounds').rjust(ml),end='|\n') 
+                        elif i == 10:
+                            print('Longest Lose'.ljust(15)+'|'+(str(FD[i])+' Rounds').rjust(ml),end='|\n')
+                        elif i == 11:
+                            print('Fastest Draw'.ljust(15)+'|'+(str(FD[i])+' Rounds').rjust(ml),end='|\n') 
+                        elif i == 12:
+                            print('Longest Draw'.ljust(15)+'|'+(str(FD[i])+' Rounds').rjust(ml),end='|\n')
+                    else: 
+                        print('+'+'-'*(ml+16)+'+\n')
+                        input('Press ENTER to go Back To Main Menu ...')
+                else:
+                    input('UserID or password not matched!!!\nPress ENTER to go Back To Main Menu ...')
         finally:
             con.commit()
             con.close()
