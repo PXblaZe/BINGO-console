@@ -1,5 +1,5 @@
 # Author's name: Sumit Gupta
-# Version: 0.1.2
+# Version: 0.1.21
 
 from time import sleep
 from random import randint
@@ -186,7 +186,7 @@ def play():
     print('\n\n')
     Round = 1
     while True:
-        if (12-len(cc)) >= 7 and (12-len(pc)) >= 5:
+        if (12-len(cc)) >= 7 and (12-len(pc)) >= 7:
             print('\n\n####################################################################')
             print('              ||=\\    ||==//   //\\   \\    //\\    //')
             print('              ||  ))  || //   //==\\   \\  //  \\  //')
@@ -207,7 +207,7 @@ def play():
                 print('===========')
                 dply(P, p1)
             return -1, (Round-1)
-        elif (12-len(cc)) >= 5:
+        elif (12-len(cc)) >= 7:
             print('\n\n####################################################################')
             print('              ||     ||===||   \\===  ||===')
             print('              ||     ||   ||    \\    ||==')
@@ -228,7 +228,7 @@ def play():
                 print('===========')
                 dply(P, p1)
             return 0, (Round-1)
-        elif (12-len(pc)) >= 5:
+        elif (12-len(pc)) >= 7:
             print('\n\n####################################################################')
             print('                \\    //    //  ||===||  ||\\  ||')
             print('                 \\ //  \\ //    ||   ||  || \\ ||')
@@ -557,15 +557,15 @@ while True:
             csr = con.cursor()
             csr.execute('SELECT Fname, Lname FROM PlrData WHERE UserID = \''+getUID+'\'')
             fn, ln = csr.fetchone()
-            print('Do you want to Sign In as',fn,ln,'(Y/n): ',end = '')
-            sl = ''
-            while not sl.lower() in ['y','n']:
-                sl = input()
-            if sl.lower() == 'n':
-                logout()
-            elif sl.lower() == 'y':
-                break
-            else:print('Invalid Input!!!')
+            ex = ''
+            while True:
+                print('Do you want to Sign In as',fn,ln,'(Y/n): ',end = '')
+                ex = input().lower()
+                if not ex in ['y', 'n']:
+                    print('Invalid Input!!!')
+                else:break
+            if ex == 'n': logout()
+            else: break
         finally:
             con.close()
     else:
@@ -1006,7 +1006,7 @@ while login():
             else: pass
         finally:
             con.commit()
-            print('\nSuccessfully changed ...')
+            if not sel == '7': print('\nSuccessfully changed ...')
             con.close()
     else:
         ex = ''
