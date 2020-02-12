@@ -1,5 +1,5 @@
 # Author's name: Sumit Gupta
-# Version: 0.1.21
+# Version: 0.2.12
 
 from time import sleep
 from random import randint
@@ -80,8 +80,8 @@ def signUp():
     ln = input('Last Name: ')
     dob = input('Date of Birth (dd-mm-yyyy): ')
     dl, dob = dob.split('-')[::-1], ''
-    for i in dl: dob += i+'-'
-    else: dob = dob[:-1]
+    for i in dl:dob += i+'-'
+    else:dob = dob[:-1]
     ud = input('User ID: ')
     pwd = input('Password: ')
     cp = ''
@@ -590,6 +590,7 @@ while True:
             signUp()
         elif key == '3':
             print('\n\nExiting...')
+            sleep(1)
             break
 
 if login():
@@ -702,7 +703,11 @@ while login():
                     elif i == 1:
                         print('Last Name'.ljust(15)+'|'+str(FD[i]).rjust(ml),end='|\n')
                     elif i == 2:
-                        print('Date of Birth'.ljust(15)+'|'+str(FD[i]).rjust(ml),end='|\n')
+                        dob = str(FD[i])
+                        dl, dob = dob.split('-')[::-1], ''
+                        for i in dl:dob += i+'-'
+                        else:dob = dob[:-1]
+                        print('Date of Birth'.ljust(15)+'|'+str(dob).rjust(ml),end='|\n')
                     elif i == 3:
                         print('Matches Played'.ljust(15)+'|'+str(FD[i]).center(ml),end='|\n')
                     elif i == 4:
@@ -1020,4 +1025,5 @@ while login():
             else:break
         if ex == 'y':logout()
         print('\n\nExiting...')
+        sleep(1)
         break
