@@ -78,7 +78,10 @@ def signUp():
     print('\n')
     fn = input('First Name: ')
     ln = input('Last Name: ')
-    dob = input('Date of Birth (yyy-mm-dd): ')
+    dob = input('Date of Birth (dd-mm-yyyy): ')
+    dl, dob = dob.split('-')[::-1], ''
+    for i in dl: dob += i+'-'
+    else: dob = dob[:-1]
     ud = input('User ID: ')
     pwd = input('Password: ')
     cp = ''
