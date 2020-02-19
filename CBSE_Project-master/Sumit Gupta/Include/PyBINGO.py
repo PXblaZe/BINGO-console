@@ -1,5 +1,5 @@
 # Author's name: Sumit Gupta
-# Version: 0.2.12
+# Version: 0.2.20
 
 from time import sleep
 from random import randint
@@ -551,6 +551,7 @@ print()
 print('                      |> || |\ | /-   |--|')
 print('                      |> || | \| |__\ |__|')
 print('####################################################################\n\n\n\n\n\n\n\n')
+print('                                                     version: 0.2.20')
 sleep(2)
 
 while True:
